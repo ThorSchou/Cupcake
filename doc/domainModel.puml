@@ -1,0 +1,27 @@
+@startuml
+!pragma layout smetana
+
+object Cupcake
+object User{
+email
+password
+admin: yes/no?
+}
+database Database{
+}
+object Basket
+object Order
+object Topping{
+price
+}
+object Bottom{
+price
+}
+
+User --* Order
+Cupcake --* Topping
+Cupcake --* Bottom
+Order --* Cupcake
+User --* Basket
+
+@enduml
