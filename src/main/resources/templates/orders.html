@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Ordrer</title>
 </head>
 <body>
+<header>
+    <h1>Logo + cupcakes + background</h1>
+</header>
+<!--"toolbar" is a placeholder name, the element is the bar that contains "Customers/orders" buttons and displays e-mail-->
+<div class="toolbar">
+    <button>Kunder</button>
+    <button>Ordrer</button>
+</div>
+<div class="customer-table">
+    <table>
+        <thead>
+        <tr>
+            <!-- Creates columns that are then filled by the <td> elements in the <tr> elements below
+                 each <tr> element represents a new row that you put data into using <td> -->
+            <th scope="col">Ordre nr.</th>
+            <th scope="col">Kunde</th>
+            <th scope="col">Ordre</th>
+            <th scope="col">Total(DKK)</th>
+            <th scope="col">Bestillingsdato</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>24</td>
+            <td>test@test.dk</td>
+            <td>Chokolade + vanilje: x10</td>
+            <td>200</td>
+            <td>26-03-2025</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>
