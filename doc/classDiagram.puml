@@ -1,0 +1,106 @@
+@startuml
+
+!pragma layout smetana
+
+class Main{
+   +static void main(String[] args)
+}
+
+database Database{
+}
+
+class Cupcake{
+-Topping topping
+-Bottom bottom
+-int price
+-int amount
++Cupcake (Topping topping, Bottom bottom, int amount, int price)
++int getprice()
++int getAmount()
+}
+
+class Bottom{
+-String bottomName
+-int price
++Bottom(String bottomName, int price)
++int getPrice()
++String getName()
+}
+
+class Topping{
+-String toppingName
+-int price
++Topping(String toppingName, int price)
++int getPrice()
++String getName()
+}
+
+class User{
+-String email
+-String password
+-int balance
+-Basket basket
++User(String email, String password, int balance, Basket basket)
++String getEmail()
++String setEmail()
++String setPassword()
++void setBalance(int balance)
++int getBalance()
+}
+
+class Order{
+-Arraylist<Cupcake> content
+-int totalPrice
+-LocalDate date
++Order(ArrayList<Cupcake> content, int totalPrice, LocalDate date)
+}
+
+class Basket{
+-Arraylist<Cupcake> content
+-int totalPrice
++Basket(ArrayList<Cupcake> content, int totalPrice, LocalDate date)
+}
+
+package "util"{
+class HomeController{
+
+}
+class AdminController{
+
+}
+class UserMapper{
++ void createUser(String email, String password)
++ void deleteUser()
++ User getUser()
++ List<String> getUserEmails()
+}
+class ToppingMapper{
++ String getName()
++ List<String> getAllNames()
++ int getPrice()
+}
+class BottomMapper{
++ String getName()
++ List<String> getAllNames()
++ int getPrice()
+}
+class OrderMapper{
+
+}
+class HomeController{
+
+}
+class CheckoutController{
+}
+}
+
+Cupcake *-- Bottom
+Cupcake *-- Topping
+Basket *-- Cupcake
+User *-- Basket
+User *-- Order
+util --- Database
+Main <-- util
+
+
+@enduml
