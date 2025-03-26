@@ -1,10 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olsker Cupcakes</title>
 </head>
 <body>
+<div class="header">
+    <div class="olskerlogo">
+        <img src="../public/images/olskerlogo.png" height="390" width="338"/>
+    </div>
 
+    <button class="button" onclick="window.location.href='/checkout'">Checkout</button>
+
+    <div class="user-section">
+        <!-- If the user is not logged in, show 'Log ind' button -->
+        <button th:if="${user == null}" onclick="window.location.href='/login'">Log ind</button>
+
+        <!-- If the user is logged in, display their email instead of the login button -->
+        <span th:if="${user != null}" th:text="${user.email}"></span>
+    </div>
+
+    <!-- Admin Links (only visible if the user is an admin) -->
+    <div class="admin-links" th:if="${user != null and user.admin}">
+        <a href="/orders">Ordrer</a>
+        <a href="/customers">Kunder</a>
+    </div>
+</div>
+
+<div class="cupcakelogo">
+    <img src="../public/images/cupcakelogo.png" height="305" width="955"/>
+</div>
+<div class="container">
+    <h2>Velkommen ombord</h2>
+    <p>Øens bedste cupcakes. Vælg og bestil her:</p>
+    <div class="selection">
+        <select>
+            <option value="" disabled selected>Vælg bund</option>
+            <option>Chokolade</option>
+            <option>Vanilje</option>
+            <option>Muskatnød</option>
+            <option>Pistache</option>
+            <option>Mandel</option>
+
+        </select>
+
+        <select>
+            <option value="" disabled selected>Vælg topping</option>
+            <option>Chokolade</option>
+            <option>Blåbær</option>
+            <option>Hindbær</option>
+            <option>Crispy</option>
+            <option>Jordbær</option>
+        </select>
+
+        <input type="number" placeholder="Vælg antal" min="1">
+    </div>
+    <button class="button">Læg i kurv</button>
+</div>
 </body>
 </html>
