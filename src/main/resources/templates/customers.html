@@ -13,6 +13,14 @@
     <button onclick="window.location.href='/customers'">Kunder</button>
     <button onclick="window.location.href='/orders'">Ordrer</button>
 </div>
+
+<form action="/admin/updateBalance" method="post">
+    <input type="hidden" name="userId" th:value="${customer.id}">
+    <input type="number" name="newBalance" min="0" required>
+    <button type="submit">Opdater</button>
+</form>
+
+
 <div class="customer-table">
     <table>
         <thead>
