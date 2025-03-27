@@ -2,9 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Indkøbskurv</title>
+    <link href="" rel="stylesheet"/>
 </head>
 <body>
+<header>
+    <div class="header-container">
+        <img src="logo img" alt="Logo" class="logo">
+        <img src="cupcakes img" alt="Cupcakes" class="cupcakes">
+    </div>
+</header>
+
+<nav class="navbar">
+    <a href="index.html">Forside</a>
+    <a href="orders.html">Ordrer</a>
+    <a href="customers.html">Kunder</a>
+    <a href="login.html">Log in</a>
+    <a href="checkout.html">
+        <img src="kurv img" alt="Basket" class="basket">
+    </a>
+</nav>
+
+<h2>Din indkøbskurv</h2>
+<section class="cart">
+    <table>
+        <thead>
+        <tr>
+            <th>Cupcake</th>
+            <th>Antal</th>
+            <th>Pris</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cupcake 1</td>
+                <td>5</td>
+                <td>25 DKK</td>
+                <td><button class="remove-item-btn">Fjern</button></td>
+            </tr>
+            <tr>
+                <td>Cupcake 2</td>
+                <td>3</td>
+                <td>30 DKK</td>
+                <td><button class="remove-item-btn">Fjern</button></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div class="cart-total-sum">
+        <h4>Samlet pris: <span id="total-price">50 DKK</span></h4>
+    </div>
+
+    <button class="checkout-btn">Gå til betaling</button>
+</section>
 
 </body>
 </html>
