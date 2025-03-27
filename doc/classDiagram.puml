@@ -54,12 +54,18 @@ class Order{
 -int totalPrice
 -LocalDate date
 +Order(ArrayList<Cupcake> content, int totalPrice, LocalDate date)
++ int getTotalPrice()
++ ArrayList<> getOrderContent()
++ String getOrderContentString()
 }
 
 class Basket{
 -Arraylist<Cupcake> content
 -int totalPrice
 +Basket(ArrayList<Cupcake> content, int totalPrice, LocalDate date)
++ int getTotalPrice()
++ ArrayList<> getContent()
++ void addContent(Cupcake cupcake)
 }
 
 package "util"{
@@ -86,6 +92,7 @@ class BottomMapper{
 + int getPrice()
 }
 class OrderMapper{
++ void createOrder()
 
 }
 class HomeController{
