@@ -22,7 +22,7 @@
     </div>
 
     <!-- Admin Links (only visible if the user is an admin) -->
-    <div class="admin-links" th:if="${user != null and user.admin}">
+    <div class="admin-links" th:if="${user != null and user.isAdmin}">
         <a href="/orders">Ordrer</a>
         <a href="/customers">Kunder</a>
     </div>

@@ -10,8 +10,8 @@
 </header>
 <!--"toolbar" is a placeholder name, the element is the bar that contains "Customers/orders" buttons and displays e-mail-->
 <div class="toolbar">
-    <button>Kunder</button>
-    <button>Ordrer</button>
+    <button onclick="window.location.href='/customers'">Kunder</button>
+    <button onclick="window.location.href='/orders'">Ordrer</button>
 </div>
 <div class="customer-table">
     <table>
@@ -21,6 +21,8 @@
                  each <tr> element represents a new row that you put data into using <td> -->
             <th scope="col">E-mail</th>
             <th scope="col">Ordrer</th>
+            <th scope="col">Balance</th>
+            <th scope="col">Opdater Balance</th>
         </tr>
         </thead>
         <tbody>
