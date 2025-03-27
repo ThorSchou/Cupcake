@@ -2,9 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opret bruger</title>
+    <link href="" rel="stylesheet"/>
 </head>
 <body>
 
+<header>
+    <div class="header-container">
+        <img src="logo img" alt="Logo" class="logo">
+        <img src="cupcakes img" alt="Cupcakes" class="cupcakes">
+    </div>
+</header>
+
+<nav class="navbar">
+    <a href="index.html">Forside</a>
+    <a href="orders.html">Ordrer</a>
+    <a href="customers.html">Kunder</a>
+    <a href="login.html">Log in</a>
+    <a href="checkout.html">
+        <img src="kurv img" alt="Basket" class="basket">
+    </a>
+</nav>
+
+<div class="register-container">
+
+
+    <form id="register-form" action="/register" method="POST">
+        <div class="input-group">
+            <label for="username">Email:</label>
+            <input type="text" id="username" name="username"  placeholder="Indtast din email..." required>
+        </div>
+        <div class="input-group">
+            <label for="password">Kode:</label>
+            <input type="password" id="password" name="password" placeholder="Indtast din kode..." required>
+        </div>
+        <button type="submit">Opret bruger</button>
+    </form>
+
+    <p>Har du allerede en bruger? <a href="/login">Login her</a></p>
+</div>
 </body>
 </html>
