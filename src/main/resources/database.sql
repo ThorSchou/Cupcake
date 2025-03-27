@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS public.users
     email character varying COLLATE pg_catalog."default" NOT NULL,
     user_password character varying COLLATE pg_catalog."default" NOT NULL,
     balance integer,
-    admin_role boolean,
+    is_admin boolean,
     CONSTRAINT users_pkey PRIMARY KEY (user_id)
     );
 

@@ -14,4 +14,22 @@ public class Order {
         this.orderDate = time;
     }
 
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public ArrayList<> getOrderContent(){
+        return orderContent;
+    }
+
+    public String getOrderContentString(){
+        String orderContentString = "";
+
+        for(Cupcake s : orderContent){
+            orderContentString += s.getToppingName() + " ";
+            orderContentString += s.getBottomName() + " ";
+            orderContentString += ":" + s.getAmount() + " \n";
+        }
+        return orderContentString;
+    }
 }
