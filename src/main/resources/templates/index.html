@@ -14,15 +14,12 @@
     <button class="button" onclick="window.location.href='/checkout'">Checkout</button>
 
     <div class="user-section">
-        <!-- If the user is not logged in, show 'Log ind' button -->
-        <button th:if="${user == null}" onclick="window.location.href='/login'">Log ind</button>
-
-        <!-- If the user is logged in, display their email instead of the login button -->
-        <span th:if="${user != null}" th:text="${user.email}"></span>
+        <button th:if="${session.user == null}" onclick="window.location.href='/login'">Log ind</button>
+        <span th:if="${session.user != null}" th:text="${session.user.email}"></span>
     </div>
 
     <!-- Admin Links (only visible if the user is an admin) -->
-    <div class="admin-links" th:if="${user != null and user.isAdmin}">
+    <div class="admin-links" th:if="${session.user != null and user.isAdmin}">
         <a href="/orders">Ordrer</a>
         <a href="/customers">Kunder</a>
     </div>

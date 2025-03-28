@@ -6,14 +6,25 @@ import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.List;
+
 public class UserController {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(
             "postgres", "postgres", "jdbc:postgresql://localhost:5432/%s?currentSchema=public", "cupcake"
     );
     private static final UserMapper userMapper = new UserMapper(connectionPool);
-    private static UserController controller = new UserController();
 
     public static void Routes(Javalin app){
+
+        app.get("/login", UserController::loginPage);
+        app.post("/login", UserController::loginUser);
+        app.get("/register", UserController::registerPage);
+        app.get("/register", UserController::registerUser);
+        app.get("/index",UserController::frontPage);
+
+        app.get("/orders", UserController::ordersPage);
+        app.get("/customers", UserController::customersPage);
+        app.get("/checkout", UserController::checkoutPage);
 
 
     }
@@ -54,5 +65,39 @@ public class UserController {
             ctx.redirect("/login");
         }
     }
+
+    public static void frontPage(Context ctx){
+        User user = ctx.sessionAttribute("user");
+        ctx.render("/index.html");
+    }
+
+    public static void checkoutPage(Context ctx){
+        User user = ctx.sessionAttribute("user");
+        ctx.render("/checkout.html");
+    }
+
+    public static void ordersPage(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        if (user == null || !user.isAdmin()) {
+            ctx.redirect("/index");
+            return;
+        }
+
+        ctx.render("/orders.html");
+    }
+
+    public static void customersPage(Context ctx) {
+        User user = ctx.sessionAttribute("user");
+        if (user == null || !user.isAdmin()) {
+            ctx.redirect("/index");
+            return;
+        }
+
+        List<User> customers = userMapper.getAllUsers();
+        ctx.attribute("customers", customers);
+        ctx.render("/customers.html");
+    }
+
+
 
 }
