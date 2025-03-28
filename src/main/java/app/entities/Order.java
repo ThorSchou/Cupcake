@@ -18,7 +18,7 @@ public class Order {
         return totalPrice;
     }
 
-    public ArrayList<> getOrderContent(){
+    public ArrayList<Cupcake> getOrderContent(){
         return orderContent;
     }
 
@@ -26,8 +26,8 @@ public class Order {
         String orderContentString = "";
 
         for(Cupcake s : orderContent){
-            orderContentString += s.getToppingName() + " ";
-            orderContentString += s.getBottomName() + " ";
+            orderContentString += s.getTopping().getName() + " ";
+            orderContentString += s.getBottom().getName() + " ";
             orderContentString += ":" + s.getAmount() + " \n";
         }
         return orderContentString;

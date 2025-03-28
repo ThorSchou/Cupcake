@@ -1,6 +1,8 @@
 package app.persistence;
 
+import app.entities.Cupcake;
 import app.entities.Order;
+import app.entities.User;
 
 import javax.xml.transform.Result;
 import java.sql.Connection;
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 
 public class OrderMapper {
     private final ConnectionPool connectionPool;
+
     public OrderMapper(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;
     }
@@ -18,10 +21,10 @@ public class OrderMapper {
     public void createOrder(Order order, User user) {
         LocalDate localDate = LocalDate.now();
         String sql = "INSERT INTO orders (customer_id, date) VALUES (?, ?)";
-        int generatedKey;
+        int generatedKey = 0;
 
         try(Connection connection = connectionPool.getConnection();
-            //RETURN_GENERATED_KEYS makes thePreparedStatement return any auto-generated keys that were made
+            //RETURN_GENERATED_KEYS makes the PreparedStatement return any auto-generated keys that were made
             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
             ps.setInt(1, user.getId());
@@ -46,8 +49,8 @@ public class OrderMapper {
 
             for(Cupcake s : order.getOrderContent()){
                 ps.setInt(1, generatedKey);
-                ps.setString(2, s.getBottomName());
-                ps.setString(3, s.getToppingName());
+                ps.setString(2, s.getBottom().getName());
+                ps.setString(3, s.getTopping().getName());
                 ps.setInt(4, s.getPrice());
                 ps.setInt(5, s.getAmount());
 
