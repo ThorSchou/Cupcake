@@ -1,5 +1,8 @@
 package app;
 
+import app.controllers.UserController;
+import app.controllers.CustomerController;
+
 import app.config.SessionConfig;
 import app.config.ThymeleafConfig;
 import app.persistence.ConnectionPool;
@@ -26,5 +29,7 @@ public class Main {
         }).start(7070);
 
         app.get("/", ctx -> ctx.render("index.html"));
+        UserController.Routes(app);
+        CustomerController.Routes(app);
     }
 }

@@ -19,7 +19,7 @@ public class UserController {
         app.get("/login", UserController::loginPage);
         app.post("/login", UserController::loginUser);
         app.get("/register", UserController::registerPage);
-        app.get("/register", UserController::registerUser);
+        app.post("/register", UserController::registerUser);
         app.get("/index",UserController::frontPage);
 
         app.get("/orders", UserController::ordersPage);

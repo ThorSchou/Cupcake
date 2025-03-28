@@ -6,7 +6,7 @@ import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
-public class CostumerController {
+public class CustomerController {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(
             "postgres", "postgres", "jdbc:postgresql://localhost:5432/%s?currentSchema=public", "cupcake"
@@ -15,7 +15,7 @@ public class CostumerController {
 
     public static void Routes(Javalin app){
 
-        app.post("/admin/updateBalance", CostumerController::updateUserBalance);
+        app.post("/admin/updateBalance", CustomerController::updateUserBalance);
 
     }
 
