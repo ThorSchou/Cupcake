@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.OrderController;
 import app.controllers.UserController;
 import app.controllers.CustomerController;
 
@@ -23,12 +24,12 @@ public class Main {
 
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public");
+            config.staticFiles.add("/templates");
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
-        app.get("/", ctx -> ctx.render("index.html"));
+        app.get("/", ctx -> ctx.render("/index.html"));
         UserController.Routes(app);
         CustomerController.Routes(app);
     }

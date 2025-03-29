@@ -19,7 +19,7 @@
     </div>
 
     <!-- Admin Links (only visible if the user is an admin) -->
-    <div class="admin-links" th:if="${session.user != null and user.isAdmin}">
+    <div class="admin-links" th:if="${session.user != null and session.user.isAdmin}">
         <a href="/orders">Ordrer</a>
         <a href="/customers">Kunder</a>
     </div>
@@ -28,32 +28,31 @@
 <div class="cupcakelogo">
     <img src="../public/images/cupcakelogo.png" height="305" width="955"/>
 </div>
-<div class="container">
-    <h2>Velkommen ombord</h2>
-    <p>Øens bedste cupcakes. Vælg og bestil her:</p>
-    <div class="selection">
-        <select>
-            <option value="" disabled selected>Vælg bund</option>
-            <option>Chokolade</option>
-            <option>Vanilje</option>
-            <option>Muskatnød</option>
-            <option>Pistache</option>
-            <option>Mandel</option>
+<form action="/addToBasket" method="post">
+    <div class="container">
+        <h2>Velkommen ombord</h2>
+        <p>Øens bedste cupcakes. Vælg og bestil her:</p>
+        <div class="selection">
+            <select name="bottom-selection" id="bottom-selection">
+                <option value="" disabled selected>Vælg bund</option>
+                <option th:each="b : ${bottoms}"
+                        th:value="${b.id}"
+                        th:text="${b.name}">
+                </option>
+            </select>
 
-        </select>
+            <select name="topping-selection" id="topping-selection">
+                <option value="" disabled selected>Vælg top</option>
+                <option th:each="t : ${toppings}"
+                        th:value="${t.id}"
+                        th:text="${t.name}">
+                </option>
+            </select>
 
-        <select>
-            <option value="" disabled selected>Vælg topping</option>
-            <option>Chokolade</option>
-            <option>Blåbær</option>
-            <option>Hindbær</option>
-            <option>Crispy</option>
-            <option>Jordbær</option>
-        </select>
-
-        <input type="number" placeholder="Vælg antal" min="1">
+            <input type="number" name="amount" placeholder="Vælg antal" min="1">
+        </div>
+        <button class="button">Læg i kurv</button>
     </div>
-    <button class="button">Læg i kurv</button>
-</div>
+</form>
 </body>
 </html>
