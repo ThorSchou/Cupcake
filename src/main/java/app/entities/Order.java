@@ -2,24 +2,45 @@ package app.entities;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
-    private ArrayList<Cupcake> orderContent = new ArrayList<>();
+    private int orderId;
+    private String email;
+    private List<Cupcake> orderContent = new ArrayList<>();
     private int totalPrice;
     private LocalDateTime orderDate;
 
-    public Order(ArrayList<Cupcake> content, int totalPrice, LocalDateTime time) {
-        this.orderContent = content;
+    public Order(int orderId, String email, List<Cupcake> orderContent, int totalPrice, LocalDateTime time) {
+        this.orderId = orderId;
+        this.email = email;
+        this.orderContent = orderContent;
         this.totalPrice = totalPrice;
         this.orderDate = time;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public int getTotalPrice() {
         return totalPrice;
     }
 
-    public ArrayList<Cupcake> getOrderContent(){
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public List<Cupcake> getOrderContent(){
         return orderContent;
+    }
+
+    public void setOrderContent(List<Cupcake> orderContent) {
+        this.orderContent = orderContent;
     }
 
     public String getOrderContentString(){

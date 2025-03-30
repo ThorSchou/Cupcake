@@ -14,37 +14,27 @@
     <button onclick="window.location.href='/orders'">Ordrer</button>
 </div>
 
-<form action="/admin/updateBalance" method="post">
-    <input type="hidden" name="userId" th:value="${customer.id}">
-    <input type="number" name="newBalance" min="0" required>
-    <button type="submit">Opdater</button>
-</form>
-
-
 <div class="customer-table">
     <table>
         <thead>
         <tr>
-            <!-- Creates columns that are then filled by the <td> elements in the <tr> elements below
-                 each <tr> element represents a new row that you put data into using <td> -->
             <th scope="col">E-mail</th>
-            <th scope="col">Ordrer</th>
             <th scope="col">Balance</th>
             <th scope="col">Opdater Balance</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>test@test.dk</td>
-            <td>2</td>
-        </tr>
-        <tr>
-            <td>test@test.com</td>
-            <td>5</td>
-        </tr>
-        <tr>
-            <td>emil@mail.dk</td>
-            <td>3</td>
+
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.balance}"></td>
+            <td>
+                <form action="/admin/updateBalance" method="post">
+                    <input type="hidden" name="userId" th:value="${customer.id}">
+                    <input type="number" name="amount" min="1" required placeholder="Tilføj beløb">
+                    <button type="submit">Tilføj</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>

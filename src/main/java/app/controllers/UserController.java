@@ -22,8 +22,6 @@ public class UserController {
         app.post("/register", UserController::registerUser);
         app.get("/index",UserController::frontPage);
 
-        app.get("/orders", UserController::ordersPage);
-        app.get("/customers", UserController::customersPage);
         app.get("/checkout", UserController::checkoutPage);
 
 
@@ -41,6 +39,10 @@ public class UserController {
 
         if (user != null && user.getPassword().equals(password)) {
             ctx.sessionAttribute("user", user);
+
+            System.out.println("User logged in: " + user.getEmail());
+            System.out.println("Is Admin: " + user.isAdmin());
+
             ctx.redirect("/index");
         } else {
             ctx.sessionAttribute("Error", "Invalid username or password.");
@@ -75,29 +77,5 @@ public class UserController {
         User user = ctx.sessionAttribute("user");
         ctx.render("/checkout.html");
     }
-
-    public static void ordersPage(Context ctx) {
-        User user = ctx.sessionAttribute("user");
-        if (user == null || !user.isAdmin()) {
-            ctx.redirect("/index");
-            return;
-        }
-
-        ctx.render("/orders.html");
-    }
-
-    public static void customersPage(Context ctx) {
-        User user = ctx.sessionAttribute("user");
-        if (user == null || !user.isAdmin()) {
-            ctx.redirect("/index");
-            return;
-        }
-
-        List<User> customers = userMapper.getAllUsers();
-        ctx.attribute("customers", customers);
-        ctx.render("/customers.html");
-    }
-
-
 
 }
