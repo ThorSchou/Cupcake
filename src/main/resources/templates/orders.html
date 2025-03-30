@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
-    <title>Orders</title>
-    <script>
-        function toggleOrderDetails(orderId) {
-            let details = document.querySelector("#order-details-" + orderId);
-            if (details) {
-                details.style.display = details.style.display === "none" ? "table-row" : "none";
-            }
-        }
-    </script>
+    <title>Ordrer</title>
 </head>
 <body>
 <header>
-    <h1>Logo + cupcakes + background</h1>
+    <h1>Logo + cupcakes + baggrund</h1>
 </header>
 <div class="toolbar">
     <button onclick="window.location.href='/customers'">Kunder</button>
@@ -22,10 +14,10 @@
 </div>
 
 <div th:if="${noOrders}">
-    <p>Ingen ordrer lige nu.</p>
+    <p>Ingen ordrer lige nu</p>
 </div>
 
-<div th:unless="${noOrders}" class="customer-table">
+<div th:unless="${noOrders}">
     <table>
         <thead>
         <tr>
@@ -39,15 +31,23 @@
         </thead>
         <tbody>
         <tr th:each="order : ${orders}" th:object="${order}">
-            <td th:text="${order.orderId}">Order ID</td>
-            <td th:text="${order.email}">Customer Email</td>
+            <td th:text="${order.orderId}">Ordre ID</td>
+            <td th:text="${order.email}">Kunde Email</td>
             <td>
-                <button type="button" th:data-id="${order.orderId}" onclick="toggleOrderDetails(this.getAttribute('data-id'))">
-                    Vis detaljer
-                </button>
+                <details>
+                    <summary>Vis detaljer</summary>
+                    <ul>
+                        <li th:each="cupcake : ${order.orderContent}"
+                            th:text="${cupcake.topping != null ? cupcake.topping.name : 'Ukendt'} + ' ' +
+                                     ${cupcake.bottom != null ? cupcake.bottom.name : 'Ukendt'} + ' : ' +
+                                     (${cupcake.amount != null ? cupcake.amount + ' stk' : 'N/A'})">
+                            Cupcake Detaljer
+                        </li>
+                    </ul>
+                </details>
             </td>
-            <td th:text="${order.totalPrice}">Total Price</td>
-            <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy')}">Order Date</td>
+            <td th:text="${order.totalPrice}">Total Pris</td>
+            <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy')}">Bestillingsdato</td>
             <td>
                 <form action="/admin/deleteOrder" method="POST" style="display:inline;">
                     <input type="hidden" name="orderId" th:value="${order.orderId}"/>
@@ -57,21 +57,6 @@
                 </form>
             </td>
         </tr>
-
-<!--        &lt;!&ndash; Dropdown for displaying cupcakes in the order &ndash;&gt;-->
-<!--        <tr th:if="${order.orderContent != null and not #lists.isEmpty(order.orderContent)}"-->
-<!--            th:each="cupcake : ${order.orderContent}"-->
-<!--            th:id="'order-details-' + ${order.orderId}"-->
-<!--            style="display:none;">-->
-<!--            <td colspan="6">-->
-<!--                <ul>-->
-<!--                    <li th:each="cupcake : ${order.orderContent}">-->
-<!--                        <span th:text="${cupcake.topping.name} + ' + ' + ${cupcake.bottom.name} + ' : ' + ${cupcake.amount + ' stk'}">Cupcake Details</span>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </td>-->
-<!--        </tr>-->
-
         </tbody>
     </table>
 </div>
