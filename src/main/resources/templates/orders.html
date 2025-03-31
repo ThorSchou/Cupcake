@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="da">
 <head>
     <meta charset="UTF-8">
     <title>Ordrer</title>
@@ -7,6 +7,7 @@
 </head>
 <body>
 <header>
+
     <div class="olskerlogo">
         <img src="/images/olskerlogo.png" height="390" width="338"/>
     </div>
@@ -28,29 +29,56 @@
     </a>
 </nav>
 <div class="customer-table">
+
+  
+  
+<div th:if="${noOrders}">
+    <p>Ingen ordrer lige nu</p>
+</div>
+
+<div th:unless="${noOrders}">
+
     <table>
         <thead>
         <tr>
-            <!-- Creates columns that are then filled by the <td> elements in the <tr> elements below
-                 each <tr> element represents a new row that you put data into using <td> -->
-            <th scope="col">Ordre nr.</th>
-            <th scope="col">Kunde</th>
-            <th scope="col">Ordre</th>
-            <th scope="col">Total(DKK)</th>
-            <th scope="col">Bestillingsdato</th>
+            <th>Ordre nr.</th>
+            <th>Kunde</th>
+            <th>Ordrer</th>
+            <th>Total (DKK)</th>
+            <th>Bestillingsdato</th>
+            <th>Slet</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>24</td>
-            <td>test@test.dk</td>
-            <td>Chokolade + vanilje: x10</td>
-            <td>200</td>
-            <td>26-03-2025</td>
+        <tr th:each="order : ${orders}" th:object="${order}">
+            <td th:text="${order.orderId}">Ordre ID</td>
+            <td th:text="${order.email}">Kunde Email</td>
+            <td>
+                <details>
+                    <summary>Vis detaljer</summary>
+                    <ul>
+                        <li th:each="cupcake : ${order.orderContent}"
+                            th:text="${cupcake.topping != null ? cupcake.topping.name : 'Ukendt'} + ' ' +
+                                     ${cupcake.bottom != null ? cupcake.bottom.name : 'Ukendt'} + ' : ' +
+                                     (${cupcake.amount != null ? cupcake.amount + ' stk' : 'N/A'})">
+                            Cupcake Detaljer
+                        </li>
+                    </ul>
+                </details>
+            </td>
+            <td th:text="${order.totalPrice}">Total Pris</td>
+            <td th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy')}">Bestillingsdato</td>
+            <td>
+                <form action="/admin/deleteOrder" method="POST" style="display:inline;">
+                    <input type="hidden" name="orderId" th:value="${order.orderId}"/>
+                    <button type="submit" onclick="return confirm('Er du sikker på, at du vil slette denne ordre?');">
+                        Slet
+                    </button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
-
 </body>
 </html>
