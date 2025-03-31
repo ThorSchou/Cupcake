@@ -2,9 +2,6 @@ package app.entities;
 
 import java.util.ArrayList;
 
-//MANGLER
-//deleteContent
-
 public class Basket {
     private ArrayList<Cupcake> basketContent = new ArrayList<>();
     private int totalPrice;
@@ -19,13 +16,12 @@ public class Basket {
         return totalPrice;
     }
 
-    public ArrayList<Cupcake> getContent(){
+    public ArrayList<Cupcake> getBasketContent(){
         return basketContent;
     }
 
     public void addContent(Cupcake cupcake){
         this.basketContent.add(cupcake);
     }
-
 
 }
