@@ -6,6 +6,8 @@ import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
+import java.util.List;
+
 public class CustomerController {
 
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(
@@ -14,30 +16,39 @@ public class CustomerController {
     private static final UserMapper userMapper = new UserMapper(connectionPool);
 
     public static void Routes(Javalin app){
-
+        app.get("/customers", CustomerController::showCustomers);
         app.post("/admin/updateBalance", CustomerController::updateUserBalance);
 
     }
 
-    public static void updateUserBalance(Context ctx) {
-        // Get the currently logged-in user (admin)
+    public static void showCustomers(Context ctx) {
         User adminUser = ctx.sessionAttribute("user");
         if (adminUser == null || !adminUser.isAdmin()) {
             ctx.redirect("/index");
             return;
         }
 
-        // Get form data
-        int userId = Integer.parseInt(ctx.formParam("userId"));
-        int newBalance = Integer.parseInt(ctx.formParam("newBalance"));
+        List<User> customers = userMapper.getAllUsers();
+        ctx.attribute("customers", customers);
+        ctx.render("customers.html");
+    }
 
-        // Get the target user and update balance
+    public static void updateUserBalance(Context ctx) {
+        User adminUser = ctx.sessionAttribute("user");
+        if (adminUser == null || !adminUser.isAdmin()) {
+            ctx.redirect("/index");
+            return;
+        }
+
+        int userId = Integer.parseInt(ctx.formParam("userId"));
+        int amountToAdd = Integer.parseInt(ctx.formParam("amount"));
+
         User targetUser = userMapper.getUserById(userId);
         if (targetUser != null) {
+            int newBalance = targetUser.getBalance() + amountToAdd;
             userMapper.updateUserBalance(targetUser, newBalance);
         }
 
-        // Redirect back to the customer page
         ctx.redirect("/customers");
     }
 }
