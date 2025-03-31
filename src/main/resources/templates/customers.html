@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Kunder</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <header>
-    <h1>Logo + cupcakes + background</h1>
+    <div class="olskerlogo">
+        <img src="/images/olskerlogo.png" height="390" width="338"/>
+    </div>
+    <div class="cupcakelogo">
+        <img src="/images/cupcakelogo.png" height="305" width="955"/>
+    </div>
 </header>
-<!--"toolbar" is a placeholder name, the element is the bar that contains "Customers/orders" buttons and displays e-mail-->
-<div class="toolbar">
-    <button onclick="window.location.href='/customers'">Kunder</button>
-    <button onclick="window.location.href='/orders'">Ordrer</button>
-</div>
+<nav class="navbar">
+    <a href="/index">Forside</a>
+    <a href="/orders" th:if="${session.user != null and session.user.isAdmin}">Ordrer</a>
+    <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
+    <a href="/login" th:if="${session.user == null}">Log in</a>
+    <span th:if="${session.user != null}" th:text="${session.user.email}"></span>
+    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
+    <a href="/checkout">
+        <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
+    </a>
+</nav>
 
 <div class="customer-table">
     <table>

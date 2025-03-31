@@ -3,28 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Indkøbskurv</title>
-    <link href="" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/checkoutStyles.css">
 </head>
 <body>
 <header>
-    <div class="header-container">
-        <img src="logo img" alt="Logo" class="logo">
-        <img src="cupcakes img" alt="Cupcakes" class="cupcakes">
+    <div class="olskerlogo">
+        <img src="/images/olskerlogo.png" height="390" width="338"/>
     </div>
+    <div class="cupcakelogo">
+        <img src="/images/cupcakelogo.png" height="305" width="955"/>
+    </div>
+
 </header>
 
 <nav class="navbar">
     <a href="/index">Forside</a>
-    <a href="/orders">Ordrer</a>
-    <a href="/customers">Kunder</a>
-    <a href="/login">Log in</a>
-        <img src="kurv img" alt="Basket" class="basket">
+    <a href="/orders" th:if="${session.user != null and session.user.isAdmin}">Ordrer</a>
+    <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
+    <a href="/login" th:if="${session.user == null}">Log in</a>
+    <span th:if="${session.user != null}" th:text="${session.user.email}"></span>
+    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
+    <a href="/checkout">
+        <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
+
     </a>
 </nav>
 
-<h2>Din indkøbskurv</h2>
-<section class="cart">
-    <table>
+<div class="cart-container">
+    <h2>Din Indkøbskurv</h2>
+
+    <table class="cart-table" id="basket-table">
         <thead>
         <tr>
             <th>Cupcake</th>
@@ -32,28 +41,27 @@
             <th>Pris</th>
         </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>Cupcake 1</td>
-                <td>5</td>
-                <td>25 DKK</td>
-                <td><button class="remove-item-btn">Fjern</button></td>
-            </tr>
-            <tr>
-                <td>Cupcake 2</td>
-                <td>3</td>
-                <td>30 DKK</td>
-                <td><button class="remove-item-btn">Fjern</button></td>
-            </tr>
-
+        <tbody id="basket-contents">
+        <!-- Table rows will be dynamically populated by JavaScript -->
         </tbody>
     </table>
+
     <div class="cart-total-sum">
-        <h4>Samlet pris: <span id="total-price">50 DKK</span></h4>
+        <span>Samlet pris:</span>
+        <span id="total-price">0 DKK</span>
     </div>
 
-    <button class="checkout-btn">Gå til betaling</button>
-</section>
+    <div class="checkout-btn-container">
+        <button class="checkout-btn" onclick="checkout()">Gå til betaling</button>
+    </div>
+</div>
+
+
+<script src="/js/basket.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', loadBasket);
+</script>
+
 
 </body>
 </html>

@@ -37,6 +37,8 @@ public class Main {
         app.get("/", ctx -> ctx.render("index.html"));
         UserController.Routes(app);
         CustomerController.Routes(app);
+        BasketController.Routes(app);
         OrdersController.Routes(app);
+
     }
 }

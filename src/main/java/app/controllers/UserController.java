@@ -57,12 +57,19 @@ public class UserController {
     public static void registerUser(Context ctx) {
         String email = ctx.formParam("username");
         String password = ctx.formParam("password");
+        String confirmPassword = ctx.formParam("confirm-password");
+
 
         User existingUser = userMapper.getUserByEmail(email);
         if (existingUser != null) {
             ctx.sessionAttribute("Error", "Username already exists.");
             ctx.redirect("/register");
-        } else {
+            return;
+        } else if (!password.equals(confirmPassword)){
+            ctx.sessionAttribute("Error", "Passwords do not match.");
+            ctx.redirect("/register");
+        }
+            else {
             userMapper.createUser(email, password);
             ctx.redirect("/login");
         }
