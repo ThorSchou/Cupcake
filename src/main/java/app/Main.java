@@ -1,5 +1,6 @@
 package app;
 
+import app.controllers.CheckoutController;
 import app.controllers.OrderController;
 import app.controllers.UserController;
 import app.controllers.CustomerController;
@@ -36,6 +37,7 @@ public class Main {
         UserController.Routes(app);
         CustomerController.Routes(app);
         OrderController.Routes(app);
+        CheckoutController.Routes(app);
         app.get("/", UserController::frontPage);
 
     }

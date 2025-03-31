@@ -29,20 +29,19 @@ public class OrderController {
 
     }
 
-    public static void addToBasket(Context ctx){
+    public static void addToBasket(Context ctx) {
         int bottomId = Integer.parseInt(ctx.formParam("bottom-selection"));
         int toppingId = Integer.parseInt(ctx.formParam("topping-selection"));
         int amount = Integer.parseInt(ctx.formParam("amount"));
         Basket basket = ctx.sessionAttribute("basket");
 
-        //Checks if basket exists on the session, if not it creates one.
-        if(basket == null){
+        if (basket == null) {
             basket = new Basket();
             ctx.sessionAttribute("basket", basket);
         }
 
         Topping topping = toppingMapper.getToppingById(toppingId);
-        Bottom bottom = bottomMapper.getBottomById(bottomId);
+        Bottom bottom = bottomMapper.getBottomById(bottomId); // Change customId to bottomId
         int price = topping.getPrice() + bottom.getPrice();
         Cupcake cupcake = new Cupcake(topping, bottom, price, amount);
         basket.addContent(cupcake);

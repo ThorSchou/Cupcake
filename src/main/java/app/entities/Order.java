@@ -39,6 +39,8 @@ public class Order {
         return totalPrice;
     }
 
+    public void setTotalPrice(int totalPrice) { this.totalPrice = totalPrice; }
+
     public LocalDate getOrderDate() {
         return orderDate;
     }

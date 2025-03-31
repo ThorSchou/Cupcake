@@ -83,3 +83,18 @@
 .checkout-btn:hover {
     background-color: #45a049;
 }
+
+.quantity-btn {
+    padding: 5px;
+    margin: 0 5px;
+}
+.remove-btn {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+}
+.error-message {
+    color: red;
+    margin-bottom: 10px;
+}

@@ -24,41 +24,35 @@ public class OrderMapper {
         String sql = "INSERT INTO orders (customer_id, date) VALUES (?, ?)";
         int generatedKey = 0;
 
-        try(Connection connection = connectionPool.getConnection();
-            //RETURN_GENERATED_KEYS makes the PreparedStatement return any auto-generated keys that were made
-            PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, user.getId());
-            ps.setString(2, localDate.toString());
+            ps.setDate(2, java.sql.Date.valueOf(localDate)); // Convert LocalDate to java.sql.Date
+            int rowsAffected = ps.executeUpdate();
 
-            ps.executeUpdate();
-
-            //Fetches the auto-generated key from the order and puts it in a variable
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next()) {
-                generatedKey = rs.getInt(1);
+            if (rowsAffected > 0) {
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    generatedKey = rs.getInt(1);
+                }
             }
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to insert into orders table", e);
         }
 
         sql = "INSERT INTO orderdetails (order_id, bottom, topping, price, amount) VALUES (?, ?, ?, ?, ?)";
-
-
-        try(Connection connection = connectionPool.getConnection();
-            PreparedStatement ps = connection.prepareStatement(sql)){
-
-            for(Cupcake s : order.getOrderContent()){
+        try (Connection connection = connectionPool.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+            for (Cupcake s : order.getOrderContent()) {
                 ps.setInt(1, generatedKey);
-                ps.setString(2, s.getBottom().getName());
-                ps.setString(3, s.getTopping().getName());
-                ps.setInt(4, s.getPrice());
+                ps.setInt(2, s.getBottom().getId());
+                ps.setInt(3, s.getTopping().getId());
+                ps.setInt(4, s.getTopping().getPrice() + s.getBottom().getPrice()); // Per-unit price
                 ps.setInt(5, s.getAmount());
-
                 ps.executeUpdate();
             }
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to insert into orderdetails table", e);
         }
     }
 
@@ -79,7 +73,8 @@ public class OrderMapper {
 
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
-        String sql = "SELECT public.orders.order_id, public.users.email, public.orders.date, SUM(public.orderdetails.price * public.orderdetails.amount) AS total_price " +
+        String sql = "SELECT public.orders.order_id, public.users.email, public.orders.date, " +
+                "SUM(public.orderdetails.price * public.orderdetails.amount) AS total_price " +
                 "FROM public.orders " +
                 "JOIN public.users ON public.orders.customer_id = public.users.user_id " +
                 "JOIN public.orderdetails ON public.orders.order_id = public.orderdetails.order_id " +
@@ -97,13 +92,28 @@ public class OrderMapper {
 
                 List<Cupcake> cupcakes = getCupcakesForOrder(orderId);
 
-                // Debug print statement
+                // Debug print statement with cupcake details
                 System.out.println("Order ID: " + orderId + ", Email: " + email + ", Total Price: " + totalPrice);
+                cupcakes.forEach(cupcake ->
+                        System.out.println("  Cupcake: " + cupcake.getTopping().getName() + " + " +
+                                cupcake.getBottom().getName() + ", Price: " + cupcake.getPrice() +
+                                ", Amount: " + cupcake.getAmount())
+                );
 
-                orders.add(new Order(orderId, email, cupcakes, totalPrice, orderDate));
+                Order order = new Order(orderId, email, cupcakes, totalPrice, orderDate);
+                // Verify total price matches cupcakes
+                int calculatedTotal = cupcakes.stream()
+                        .mapToInt(Cupcake::getPrice)
+                        .sum();
+                if (totalPrice != calculatedTotal) {
+                    System.out.println("WARNING: Total price mismatch for Order " + orderId +
+                            ". DB: " + totalPrice + ", Calculated: " + calculatedTotal);
+                }
+
+                orders.add(order);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch orders", e); // Improved error handling
         }
         return orders;
     }
@@ -138,21 +148,26 @@ public class OrderMapper {
                         rs.getInt("topping_price")
                 );
 
+                int orderDetailsPrice = rs.getInt("price"); // Per-unit price from orderdetails
+                int amount = rs.getInt("amount");
+
                 Cupcake cupcake = new Cupcake(
-                        //orderId,
                         topping,
                         bottom,
-                        rs.getInt("price"),
-                        rs.getInt("amount")
+                        orderDetailsPrice, // Per-unit price
+                        amount
                 );
 
                 cupcakes.add(cupcake);
 
-                // Debug print to confirm cupcakes are fetched
-                System.out.println("Cupcake: " + topping.getName() + " + " + bottom.getName());
+                // Enhanced debug print to verify pricing
+                System.out.println("Cupcake: " + topping.getName() + " + " + bottom.getName() +
+                        ", Unit Price: " + orderDetailsPrice +
+                        ", Amount: " + amount +
+                        ", Total Price: " + cupcake.getPrice());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch cupcakes for order " + orderId, e); // Improved error handling
         }
         return cupcakes;
     }

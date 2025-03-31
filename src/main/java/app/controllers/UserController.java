@@ -25,9 +25,7 @@ public class UserController {
         app.get("/register", UserController::registerPage);
         app.post("/register", UserController::registerUser);
         app.get("/index",UserController::frontPage);
-
-        app.get("/checkout", UserController::checkoutPage);
-
+        app.get("/logout", UserController::logout);
 
     }
 
@@ -79,21 +77,25 @@ public class UserController {
         }
     }
 
-    public static void frontPage(Context ctx){
+    public static void frontPage(Context ctx) {
         User user = ctx.sessionAttribute("user");
-        ctx.sessionAttribute("basket", new Basket());
+        Basket basket = ctx.sessionAttribute("basket");
+        if (basket == null) {
+            basket = new Basket();
+            ctx.sessionAttribute("basket", basket);
+        }
         List<Bottom> bottomList = bottomMapper.getAllBottoms();
         List<Topping> toppingList = toppingMapper.getAllToppings();
 
         ctx.attribute("toppings", toppingList);
         ctx.attribute("bottoms", bottomList);
-
         ctx.render("/index.html");
     }
 
-    public static void checkoutPage(Context ctx){
-        User user = ctx.sessionAttribute("user");
-        ctx.render("/checkout.html");
+
+    public static void logout(Context ctx) {
+        ctx.sessionAttribute("user", null);
+        ctx.redirect("/index");
     }
 
 }
