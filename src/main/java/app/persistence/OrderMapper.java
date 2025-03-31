@@ -93,7 +93,7 @@ public class OrderMapper {
                 int orderId = rs.getInt("order_id");
                 String email = rs.getString("email");
                 int totalPrice = rs.getInt("total_price");
-                LocalDateTime orderDate = rs.getTimestamp("date").toLocalDateTime();
+                LocalDate orderDate = rs.getDate("date").toLocalDate();
 
                 List<Cupcake> cupcakes = getCupcakesForOrder(orderId);
 
@@ -139,7 +139,7 @@ public class OrderMapper {
                 );
 
                 Cupcake cupcake = new Cupcake(
-                        orderId,
+                        //orderId,
                         topping,
                         bottom,
                         rs.getInt("price"),

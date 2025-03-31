@@ -39,7 +39,7 @@ public class Order {
         return totalPrice;
     }
 
-    public LocalDateTime getOrderDate() {
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 

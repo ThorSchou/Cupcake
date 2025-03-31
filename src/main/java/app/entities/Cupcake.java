@@ -55,14 +55,4 @@ public class Cupcake {
         this.bottom = bottom;
     }
 
-    @Override
-    public String toString() {
-        return "Cupcake{" +
-                "orderId=" + orderId +
-                ", topping=" + topping +
-                ", bottom=" + bottom +
-                ", price=" + price +
-                ", amount=" + amount +
-                '}';
-    }
 }

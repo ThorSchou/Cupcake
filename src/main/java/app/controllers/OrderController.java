@@ -4,12 +4,14 @@ import app.entities.*;
 import app.persistence.BottomMapper;
 
 import app.persistence.ConnectionPool;
+import app.persistence.OrderMapper;
 import app.persistence.ToppingMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 public class OrderController {
     private static final ConnectionPool connectionPool = ConnectionPool.getInstance(
@@ -17,10 +19,13 @@ public class OrderController {
     );
     private static final ToppingMapper toppingMapper = new ToppingMapper(connectionPool);
     private static final BottomMapper bottomMapper = new BottomMapper(connectionPool);
+    private static final OrderMapper orderMapper = new OrderMapper(connectionPool);
 
 
     public static void Routes(Javalin app){
         app.post("/addToBasket", OrderController::addToBasket);
+        app.get("/orders", OrderController::showOrders);
+        app.post("/admin/deleteOrder", OrderController::deleteOrder);
 
     }
 
@@ -42,7 +47,7 @@ public class OrderController {
         Cupcake cupcake = new Cupcake(topping, bottom, price, amount);
         basket.addContent(cupcake);
 
-        ctx.redirect("/index.html");
+        ctx.redirect("/index");
     }
 
     public static Order createOrderFromBasket(Context ctx){
@@ -55,5 +60,27 @@ public class OrderController {
         ctx.render("/index.html");
         //MANGLER FEJLHÅNDTERING
         return null;
+    }
+
+    public static void showOrders(Context ctx) {
+        User adminUser = ctx.sessionAttribute("user");
+        if (adminUser == null || !adminUser.isAdmin()) {
+            ctx.redirect("/index");
+            return;
+        }
+
+        List<Order> orders = orderMapper.getAllOrders();
+
+        orders.forEach(order -> System.out.println("Order Content: " + order.getOrderContent()));
+
+        ctx.render("orders.html", Map.of("orders", orders, "noOrders", orders.isEmpty()));
+    }
+
+
+
+    public static void deleteOrder(Context ctx) {
+        int orderId = Integer.parseInt(ctx.formParam("orderId"));
+        orderMapper.deleteOrder(orderId);
+        ctx.redirect("/orders");
     }
 }
