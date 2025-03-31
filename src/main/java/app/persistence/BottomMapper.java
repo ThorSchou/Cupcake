@@ -42,7 +42,7 @@ public class BottomMapper {
 
     public Bottom getBottomById(int id) {
 
-        String sql = "SELECT * FROM toppings WHERE id = ?";
+        String sql = "SELECT * FROM bottoms WHERE bottom_id = ?";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
 

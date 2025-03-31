@@ -42,7 +42,7 @@ public class OrderController {
         Cupcake cupcake = new Cupcake(topping, bottom, price, amount);
         basket.addContent(cupcake);
 
-        ctx.render("/index.html");
+        ctx.redirect("/index.html");
     }
 
     public static Order createOrderFromBasket(Context ctx){

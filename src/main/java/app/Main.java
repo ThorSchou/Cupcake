@@ -29,8 +29,9 @@ public class Main {
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
 
-        app.get("/", ctx -> ctx.render("/index.html"));
         UserController.Routes(app);
         CustomerController.Routes(app);
+        OrderController.Routes(app);
+        app.get("/", UserController::frontPage);
     }
 }
