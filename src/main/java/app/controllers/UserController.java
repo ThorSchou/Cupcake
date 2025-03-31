@@ -1,7 +1,12 @@
 package app.controllers;
 
+import app.entities.Basket;
+import app.entities.Bottom;
+import app.entities.Topping;
 import app.entities.User;
+import app.persistence.BottomMapper;
 import app.persistence.ConnectionPool;
+import app.persistence.ToppingMapper;
 import app.persistence.UserMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -13,6 +18,8 @@ public class UserController {
             "postgres", "postgres", "jdbc:postgresql://localhost:5432/%s?currentSchema=public", "cupcake"
     );
     private static final UserMapper userMapper = new UserMapper(connectionPool);
+    private static final BottomMapper bottomMapper = new BottomMapper(connectionPool);
+    private static final ToppingMapper toppingMapper = new ToppingMapper(connectionPool);
 
     public static void Routes(Javalin app){
 
@@ -77,6 +84,13 @@ public class UserController {
 
     public static void frontPage(Context ctx){
         User user = ctx.sessionAttribute("user");
+        ctx.sessionAttribute("basket", new Basket());
+        List<Bottom> bottomList = bottomMapper.getAllBottoms();
+        List<Topping> toppingList = toppingMapper.getAllToppings();
+
+        ctx.attribute("toppings", toppingList);
+        ctx.attribute("bottoms", bottomList);
+
         ctx.render("/index.html");
     }
 

@@ -42,7 +42,7 @@ public class ToppingMapper {
 
     public Topping getToppingById(int id) {
 
-        String sql = "SELECT * FROM toppings WHERE id = ?";
+        String sql = "SELECT * FROM toppings WHERE topping_id = ?";
         try (Connection conn = connectionPool.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)){
 

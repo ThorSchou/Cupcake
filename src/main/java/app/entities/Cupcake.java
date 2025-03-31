@@ -2,14 +2,12 @@ package app.entities;
 
 public class Cupcake {
 
-    private int orderId;
     private Topping topping;
     private Bottom bottom;
     private int price;
     private int amount;
 
-    public Cupcake(int orderId, Topping topping, Bottom bottom, int price, int amount){
-        this.orderId = orderId;
+    public Cupcake(Topping topping, Bottom bottom, int price, int amount){
         this.topping = topping;
         this.bottom = bottom;
         this.price = price;
@@ -17,13 +15,13 @@ public class Cupcake {
 
     }
 
-    public int getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
-    }
+//    public int getOrderId() {
+//        return orderId;
+//    }
+//
+//    public void setOrderId(int orderId) {
+//        this.orderId = orderId;
+//    }
 
     public void setPrice(int price) {
         this.price = price;

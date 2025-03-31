@@ -1,5 +1,6 @@
 package app.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,16 @@ public class Order {
     private String email;
     private List<Cupcake> orderContent = new ArrayList<>();
     private int totalPrice;
-    private LocalDateTime orderDate;
+    private LocalDate orderDate;
 
-    public Order(int orderId, String email, List<Cupcake> orderContent, int totalPrice, LocalDateTime time) {
+
+    public Order(ArrayList<Cupcake> content, int totalPrice, LocalDate time) {
+        this.orderContent = content;
+        this.totalPrice = totalPrice;
+        this.orderDate = time;
+    }
+  
+    public Order(int orderId, String email, List<Cupcake> orderContent, int totalPrice, LocalDate time) {
         this.orderId = orderId;
         this.email = email;
         this.orderContent = orderContent;

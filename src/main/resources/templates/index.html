@@ -30,36 +30,35 @@
 </nav>
 
 
-<div class="container">
-    <h2>Velkommen ombord</h2>
-    <p>Øens bedste cupcakes. Vælg og bestil her:</p>
-    <div class="selection">
-        <select id="bottomSelect">
-            <option value="" disabled selected>Vælg bund</option>
-            <option value="1">Chokolade - 5.00 DKK</option>
-            <option value="2">Vanilje - 5.00 DKK</option>
-            <option value="3">Muskatnød - 5.00 DKK</option>
-            <option value="4">Pistache - 6.00 DKK</option>
-            <option value="5">Mandel - 7.00 DKK</option>
-        </select>
+ 
+<form action="/addToBasket" method="post">
+  
+  
+    <div class="container">
+        <h2>Velkommen ombord</h2>
+        <p>Øens bedste cupcakes. Vælg og bestil her:</p>
+        <div class="selection">
+            <select name="bottom-selection" id="bottom-selection">
+                <option value="" disabled selected>Vælg bund</option>
+                <option th:each="b : ${bottoms}"
+                        th:value="${b.id}"
+                        th:text="${b.name}">
+                </option>
+            </select>
 
-        <select id="toppingSelect">
-            <option value="" disabled selected>Vælg topping</option>
-            <option value="1">Chokolade - 5.00 DKK</option>
-            <option value="2">Blåbær - 5.00 DKK</option>
-            <option value="3">Hindbær - 5.00 DKK</option>
-            <option value="4">Crispy - 6.00 DKK</option>
-            <option value="5">Jordbær - 6.00 DKK</option>
-            <option value="6">Rom/rosin - 7.00 DKK</option>
-            <option value="7">Appelsin - 8.00 DKK</option>
-            <option value="8">Citrus - 8.00 DKK</option>
-            <option value="9">Blåskimmel - 9.00 DKK</option>
-        </select>
+            <select name="topping-selection" id="topping-selection">
+                <option value="" disabled selected>Vælg top</option>
+                <option th:each="t : ${toppings}"
+                        th:value="${t.id}"
+                        th:text="${t.name}">
+                </option>
+            </select>
 
-        <input type="number" id="amount" value="1" min="1" placeholder="Vælg antal" />
-        <button class="button" onclick="addToBasket()">Læg i kurv</button>
+            <input type="number" name="amount" placeholder="Vælg antal" min="1">
         </div>
+        <button class="button">Læg i kurv</button>
     </div>
-<script src="/js/basket.js"></script>
+</form>
+
 </body>
 </html>

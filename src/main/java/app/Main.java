@@ -1,6 +1,10 @@
 package app;
 
+
+import app.controllers.OrderController;
+
 import app.controllers.OrdersController;
+
 import app.controllers.UserController;
 import app.controllers.CustomerController;
 
@@ -28,17 +32,16 @@ public class Main {
             config.jetty.modifyServletContextHandler(handler -> handler.setSessionHandler(SessionConfig.sessionConfig()));
             config.fileRenderer(new JavalinThymeleaf(ThymeleafConfig.templateEngine()));
         }).start(7070);
-
-        app.before(ctx -> {
+        
+         app.before(ctx -> {
             ctx.attribute("session", ctx.sessionAttributeMap());
         });
 
-
-        app.get("/", ctx -> ctx.render("index.html"));
         UserController.Routes(app);
         CustomerController.Routes(app);
-        BasketController.Routes(app);
+        OrderController.Routes(app
         OrdersController.Routes(app);
-
+        app.get("/", UserController::frontPage);
+    
     }
 }
