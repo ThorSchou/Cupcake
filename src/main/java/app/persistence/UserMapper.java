@@ -1,5 +1,6 @@
 package app.persistence;
 
+import app.entities.Order;
 import app.entities.User;
 
 import java.sql.Connection;
@@ -122,6 +123,4 @@ public class UserMapper {
 
         return users;
     }
-
-
 }

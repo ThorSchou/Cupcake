@@ -16,7 +16,7 @@ public class Basket {
         return totalPrice;
     }
 
-    public ArrayList<Cupcake> getBasketContent(){
+    public ArrayList<Cupcake> getContent(){
         return basketContent;
     }
 
