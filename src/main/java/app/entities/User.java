@@ -7,6 +7,7 @@ public class User {
     private String password;
     private int balance;
     private boolean isAdmin;
+    private Basket basket;
 
     public User(int id, String email, String password, int balance, boolean isAdmin) {
         this.id = id;
@@ -14,6 +15,7 @@ public class User {
         this.password = password;
         this.balance = balance;
         this.isAdmin = isAdmin;
+        this.basket = new Basket();
     }
 
     public int getId() {

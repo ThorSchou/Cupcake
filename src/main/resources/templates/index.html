@@ -4,31 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Olsker Cupcakes</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<div class="header">
+<header>
     <div class="olskerlogo">
-        <img src="../public/images/olskerlogo.png" height="390" width="338"/>
+        <img src="/images/olskerlogo.png" height="390" width="338"/>
+    </div>
+    <div class="cupcakelogo">
+        <img src="/images/cupcakelogo.png" height="305" width="955"/>
     </div>
 
-    <button class="button" onclick="window.location.href='/checkout'">Checkout</button>
+</header>
 
-    <div class="user-section">
-        <button th:if="${session.user == null}" onclick="window.location.href='/login'">Log ind</button>
-        <span th:if="${session.user != null}" th:text="${session.user.email}"></span>
-    </div>
+<nav class="navbar">
+    <a href="/index">Forside</a>
+    <a href="/orders" th:if="${session.user != null and session.user.isAdmin}">Ordrer</a>
+    <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
+    <a href="/login" th:if="${session.user == null}">Log in</a>
+    <span th:if="${session.user != null}" th:text="${session.user.email}"></span>
+    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
+    <a href="/checkout">
+        <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
+    </a>
+</nav>
 
-    <!-- Admin Links (only visible if the user is an admin) -->
-    <div class="admin-links" th:if="${session.user != null and session.user.isAdmin}">
-        <a href="/orders">Ordrer</a>
-        <a href="/customers">Kunder</a>
-    </div>
-</div>
 
-<div class="cupcakelogo">
-    <img src="../public/images/cupcakelogo.png" height="305" width="955"/>
-</div>
+ 
 <form action="/addToBasket" method="post">
+  
+  
     <div class="container">
         <h2>Velkommen ombord</h2>
         <p>Øens bedste cupcakes. Vælg og bestil her:</p>
@@ -54,5 +59,6 @@
         <button class="button">Læg i kurv</button>
     </div>
 </form>
+
 </body>
 </html>
