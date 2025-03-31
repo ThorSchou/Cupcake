@@ -1,9 +1,6 @@
 package app.controllers;
 
-import app.entities.Basket;
-import app.entities.Bottom;
-import app.entities.Topping;
-import app.entities.User;
+import app.entities.*;
 import app.persistence.BottomMapper;
 import app.persistence.ConnectionPool;
 import app.persistence.ToppingMapper;
