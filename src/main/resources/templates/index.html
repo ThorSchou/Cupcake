@@ -39,7 +39,7 @@
         <h2>Velkommen ombord</h2>
         <p>Øens bedste cupcakes. Vælg og bestil her:</p>
         <div class="selection">
-            <select name="bottom-selection" id="bottom-selection">
+            <select name="bottom-selection" id="bottom-selection" required>
                 <option value="" disabled selected>Vælg bund</option>
                 <option th:each="b : ${bottoms}"
                         th:value="${b.id}"
@@ -47,7 +47,7 @@
                 </option>
             </select>
 
-            <select name="topping-selection" id="topping-selection">
+            <select name="topping-selection" id="topping-selection" required>
                 <option value="" disabled selected>Vælg top</option>
                 <option th:each="t : ${toppings}"
                         th:value="${t.id}"
