@@ -1,0 +1,95 @@
+/* Styling for login container */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the login form */
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input group styling */
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label styling */
+.input-group label {
+    font-size: 14px;
+    color: #595959;
+    margin-bottom: 5px;
+}
+
+/* Input field styling */
+.input-group input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Focused input field styling */
+.input-group input:focus {
+    border-color: #9b59b6;
+    outline: none;
+}
+
+/* Submit button styling */
+button {
+    background-color: #9b59b6; /* Purple */
+    color: white;
+    padding: 12px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #8e44ad; /* Darker purple on hover */
+}
+
+/* Link text styling */
+p {
+    text-align: center;
+    font-size: 14px;
+    color: #333;
+}
+
+p a {
+    color: #9b59b6;
+    text-decoration: none;
+}
+
+/* Link hover effect */
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Mobile responsiveness for login box */
+@media (max-width: 768px) {
+    .login-container {
+        margin: 20px;
+    }
+
+    .input-group input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 10px;
+    }
+}

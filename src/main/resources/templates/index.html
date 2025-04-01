@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="da" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olsker Cupcakes</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header>
+    <div class="olskerlogo">
+        <img src="/images/olskerlogo.png" height="390" width="338"/>
+    </div>
+    <div class="cupcakelogo">
+        <img src="/images/cupcakelogo.png" height="305" width="955"/>
+    </div>
+
+</header>
+
+<nav class="navbar">
+    <a href="/index">Forside</a>
+    <a href="/orders" th:if="${session.user != null and session.user.isAdmin}">Ordrer</a>
+    <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
+    <a href="/login" th:if="${session.user == null}">Log in</a>
+    <span th:if="${session.user != null}"
+          th:text="${session.user.email + ' - Balance: ' + session.user.balance}">Email og balance</span>
+    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
+    <a href="/checkout">
+        <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
+    </a>
+</nav>
+
+
+ 
+<form action="/addToBasket" method="post">
+  
+  
+    <div class="container">
+        <h2>Velkommen ombord</h2>
+        <p>Øens bedste cupcakes. Vælg og bestil her:</p>
+        <div class="selection">
+            <select name="bottom-selection" id="bottom-selection">
+                <option value="" disabled selected>Vælg bund</option>
+                <option th:each="b : ${bottoms}"
+                        th:value="${b.id}"
+                        th:text="${b.name}">
+                </option>
+            </select>
+
+            <select name="topping-selection" id="topping-selection">
+                <option value="" disabled selected>Vælg top</option>
+                <option th:each="t : ${toppings}"
+                        th:value="${t.id}"
+                        th:text="${t.name}">
+
+                </option>
+            </select>
+
+            <input type="number" name="amount" placeholder="Vælg antal" min="1">
+        </div>
+        <button class="button">Læg i kurv</button>
+    </div>
+</form>
+
+<script>
+    // Alert for successful payment
+    if (window.location.search.includes("payment=success")) {
+        alert("Betaling gennemført!");
+    }
+</script>
+
+</body>
+</html>
