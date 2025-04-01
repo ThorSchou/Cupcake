@@ -160,14 +160,14 @@ public class OrderMapper {
 
                 cupcakes.add(cupcake);
 
-                // Enhanced debug print to verify pricing
+                // debug print to verify pricing
                 System.out.println("Cupcake: " + topping.getName() + " + " + bottom.getName() +
                         ", Unit Price: " + orderDetailsPrice +
                         ", Amount: " + amount +
                         ", Total Price: " + cupcake.getPrice());
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to fetch cupcakes for order " + orderId, e); // Improved error handling
+            throw new RuntimeException("Failed to fetch cupcakes for order " + orderId, e);
         }
         return cupcakes;
     }
@@ -175,7 +175,7 @@ public class OrderMapper {
 
     public void deleteOrder(int orderId) {
         String deleteOrderDetails = "DELETE FROM public.orderdetails WHERE order_id = ?";
-        String deleteOrder = "DELETE FROM public.orders WHERE order_id = ?";  // Fixed the column name
+        String deleteOrder = "DELETE FROM public.orders WHERE order_id = ?";
 
         try (Connection connection = connectionPool.getConnection()) {
             try (PreparedStatement ps1 = connection.prepareStatement(deleteOrderDetails);

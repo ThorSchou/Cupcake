@@ -20,9 +20,9 @@ public class CheckoutController {
 
     public static void Routes(Javalin app){
         app.post("/checkout/completeOrder", CheckoutController::checkout);
-        app.post("/checkout/removeCupcake", CheckoutController::removeCupcake); // New route
-        app.post("/checkout/updateQuantity", CheckoutController::updateQuantity); // New route
-        app.get("/checkout", CheckoutController::showCheckout); // New route for GET
+        app.post("/checkout/removeCupcake", CheckoutController::removeCupcake);
+        app.post("/checkout/updateQuantity", CheckoutController::updateQuantity);
+        app.get("/checkout", CheckoutController::showCheckout);
     }
 
     public static void showCheckout(Context ctx) {
@@ -40,7 +40,7 @@ public class CheckoutController {
         if (basket != null) {
             int index = Integer.parseInt(ctx.formParam("index"));
             basket.getContent().remove(index);
-            ctx.sessionAttribute("basket", basket); // Update session
+            ctx.sessionAttribute("basket", basket);
         }
         ctx.redirect("/checkout");
     }
@@ -58,7 +58,7 @@ public class CheckoutController {
                 newAmount--;
             }
             cupcake.setAmount(newAmount);
-            ctx.sessionAttribute("basket", basket); // Update session
+            ctx.sessionAttribute("basket", basket);
         }
         ctx.redirect("/checkout");
     }
@@ -81,7 +81,7 @@ public class CheckoutController {
             checkoutPayment(ctx, order);
             orderMapper.createOrder(order, user);
             ctx.sessionAttribute("basket", null); // Clear basket after success
-            ctx.redirect("/index?payment=success"); // Redirect with success param
+            ctx.redirect("/index?payment=success");
         } catch (Exception e) {
             ctx.attribute("errorMessage", "Betaling fejlet");
             ctx.render("checkout.html");
@@ -91,7 +91,7 @@ public class CheckoutController {
     public static void checkoutPayment(Context ctx, Order order) {
         String userIdStr = ctx.formParam("userId");
         if (userIdStr == null || userIdStr.isEmpty()) {
-            ctx.redirect("/login"); // Handle case where userId is empty
+            ctx.redirect("/login");
             return;
         }
         int userId = Integer.parseInt(userIdStr);

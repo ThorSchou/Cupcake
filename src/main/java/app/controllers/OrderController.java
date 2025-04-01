@@ -41,7 +41,7 @@ public class OrderController {
         }
 
         Topping topping = toppingMapper.getToppingById(toppingId);
-        Bottom bottom = bottomMapper.getBottomById(bottomId); // Change customId to bottomId
+        Bottom bottom = bottomMapper.getBottomById(bottomId);
         int price = topping.getPrice() + bottom.getPrice();
         Cupcake cupcake = new Cupcake(topping, bottom, price, amount);
         basket.addContent(cupcake);
