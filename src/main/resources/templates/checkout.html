@@ -24,7 +24,7 @@
     <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
     <a href="/login" th:if="${session.user == null}">Log in</a>
     <span th:if="${session.user != null}"
-          th:text="${session.user.email + ' - Balance: ' + session.user.balance}">Email og balance</span>
+          th:text="${session.user.email + ' - Balance: ' + session.user.balance + ' DKK'}">Email og Saldo</span>
     <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
     <a href="/checkout">
         <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
@@ -81,14 +81,13 @@
     <form action="/checkout/completeOrder" method="post" th:unless="${session.basket == null or session.basket.content.isEmpty()}">
         <!-- Use a conditional to set userId only if user exists -->
         <input type="hidden" name="userId" th:value="${session.user != null ? session.user.id : ''}"/>
-        <button type="submit" class="checkout-btn">Gå til betaling</button>
+        <button type="submit" class="checkout-btn">Betal nu</button>
     </form>
 </div>
 
 <script>
-    // Simple alert for insufficient balance (triggered by backend redirect with param)
     if (window.location.search.includes("error=insufficient_balance")) {
-        alert("Balance for lav");
+        alert("saldo for lav");
     }
 </script>
 
