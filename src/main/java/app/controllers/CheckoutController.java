@@ -105,6 +105,7 @@ public class CheckoutController {
             }
             int newBalance = targetUser.getBalance() - amountToWithdraw;
             userMapper.updateUserBalance(targetUser, newBalance);
+            ctx.sessionAttribute("user", targetUser);
         }
     }
 }
