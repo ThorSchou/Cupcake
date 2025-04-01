@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS public.orderdetails
     topping integer NOT NULL,
     price integer NOT NULL,
     amount integer NOT NULL,
-    CONSTRAINT orderdetails_pkey PRIMARY KEY (order_id)
+    order_details_id serial NOT NULL,
+    CONSTRAINT orderdetails_pkey PRIMARY KEY (order_details_id)
     );
 
 CREATE TABLE IF NOT EXISTS public.orders
@@ -61,8 +62,6 @@ ALTER TABLE IF EXISTS public.orderdetails
     ON UPDATE NO ACTION
        ON DELETE NO ACTION
     NOT VALID;
-CREATE INDEX IF NOT EXISTS orderdetails_pkey
-    ON public.orderdetails(order_id);
 
 
 ALTER TABLE IF EXISTS public.orderdetails
