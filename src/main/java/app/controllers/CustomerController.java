@@ -48,7 +48,7 @@ public class CustomerController {
             int newBalance = targetUser.getBalance() + amountToAdd;
             userMapper.updateUserBalance(targetUser, newBalance);
         }
-
+        ctx.sessionAttribute("user", targetUser);
         ctx.redirect("/customers");
     }
 }
