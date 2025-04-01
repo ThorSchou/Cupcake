@@ -46,6 +46,7 @@ public class OrderController {
         Cupcake cupcake = new Cupcake(topping, bottom, price, amount);
         basket.addContent(cupcake);
 
+        ctx.sessionAttribute("basket", basket);
         ctx.redirect("/index");
     }
 

@@ -49,6 +49,7 @@ public class CustomerController {
             userMapper.updateUserBalance(targetUser, newBalance);
         }
 
+        ctx.sessionAttribute("user", targetUser);
         ctx.redirect("/customers");
     }
 }
