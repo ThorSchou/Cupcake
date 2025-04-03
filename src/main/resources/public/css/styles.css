@@ -39,16 +39,11 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #8e44ad; /* Darker purple on hover */
-}
-
 .navbar {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #f0f0f0; /* Light grey background */
-    padding: 10px 0;
+    background-color: #f0f0f0;
     margin-top: 10px;
 }
 
@@ -62,7 +57,7 @@ button:hover {
 }
 
 .navbar a:hover {
-    color: #f39c12; /* Yellowish color on hover */
+    color: #f39c12; /* Yellowish color on hover over links*/
 }
 
 .navbar a img {
@@ -73,10 +68,9 @@ button:hover {
 }
 
 .navbar a img:hover {
-    transform: scale(1.1); /* Slight zoom effect */
+    transform: scale(1.1); /* Slight zoom effect for the basket*/
 }
 
-/* User section styling */
 .user-section {
     display: flex;
     align-items: center;
@@ -86,21 +80,19 @@ button:hover {
     margin-right: 10px;
 }
 
-/* Admin links */
+
 .admin-links {
     display: flex;
     gap: 15px;
     margin-left: 20px;
 }
 
-/* Container Styling */
+
 .container {
     padding: 40px;
     text-align: center;
     background-color: #f0f0f0;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 10px;
-    border-radius: 8px;
+    margin: 10px auto;
 }
 
 .container h2 {
@@ -135,7 +127,7 @@ button:hover {
 }
 
 button.button {
-    background-color: #3E8BCD; /* Purple */
+    background-color: #3E8BCD;
     color: white;
     padding: 12px 30px;
     border: none;

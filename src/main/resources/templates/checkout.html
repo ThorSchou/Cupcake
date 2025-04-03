@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Indkøbskurv</title>
+    <title>Checkout</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/checkoutStyles.css">
 </head>
@@ -11,6 +11,7 @@
     <div class="olskerlogo">
         <img src="/images/olskerlogo.png" height="390" width="338"/>
     </div>
+
     <div class="cupcakelogo">
         <img src="/images/cupcakelogo.png" height="305" width="955"/>
     </div>
@@ -22,46 +23,73 @@
     <a href="/orders" th:if="${session.user != null and session.user.isAdmin}">Ordrer</a>
     <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
     <a href="/login" th:if="${session.user == null}">Log in</a>
-    <span th:if="${session.user != null}" th:text="${session.user.email}"></span>
+    <span th:if="${session.user != null}"
+          th:text="${session.user.email + ' - Balance: ' + session.user.balance + ' DKK'}">Email og Saldo</span>
     <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
     <a href="/checkout">
         <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
-
     </a>
 </nav>
 
 <div class="cart-container">
     <h2>Din Indkøbskurv</h2>
 
-    <table class="cart-table" id="basket-table">
+    <!-- Display error message if payment fails -->
+    <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
+    <table class="cart-table">
         <thead>
         <tr>
             <th>Cupcake</th>
             <th>Antal</th>
             <th>Pris</th>
+            <th>Fjern</th>
         </tr>
         </thead>
-        <tbody id="basket-contents">
-        <!-- Table rows will be dynamically populated by JavaScript -->
+        <tbody>
+        <!-- Only render the cupcake rows if basket and content exist -->
+        <tr th:each="cupcake, iterStat : ${session.basket.content}" th:unless="${session.basket == null}">
+            <td th:text="${cupcake.topping.name + ' med ' + cupcake.bottom.name}"></td>
+            <td>
+                <form action="/checkout/updateQuantity" method="post" style="display:inline;">
+                    <input type="hidden" name="index" th:value="${iterStat.index}"/>
+                    <button type="submit" name="action" value="decrease" class="quantity-btn">-</button>
+                    <span th:text="${cupcake.amount}"></span>
+                    <button type="submit" name="action" value="increase" class="quantity-btn">+</button>
+                </form>
+            </td>
+            <td th:text="${cupcake.price} + ' DKK'"></td>
+            <td>
+                <form action="/checkout/removeCupcake" method="post" style="display:inline;">
+                    <input type="hidden" name="index" th:value="${iterStat.index}"/>
+                    <button type="submit" class="remove-btn">Fjern</button>
+                </form>
+            </td>
+        </tr>
+        <!-- Show empty message if basket is null or empty -->
+        <tr th:if="${session.basket == null or session.basket.content.isEmpty()}">
+            <td colspan="4">Din kurv er tom</td>
+        </tr>
         </tbody>
     </table>
 
-    <div class="cart-total-sum">
+    <div class="cart-total-sum" th:unless="${session.basket == null or session.basket.content.isEmpty()}">
         <span>Samlet pris:</span>
-        <span id="total-price">0 DKK</span>
+        <span th:text="${session.basket.totalPrice} + ' DKK'"></span>
     </div>
 
-    <div class="checkout-btn-container">
-        <button class="checkout-btn" onclick="checkout()">Gå til betaling</button>
-    </div>
+    <form action="/checkout/completeOrder" method="post" th:unless="${session.basket == null or session.basket.content.isEmpty()}">
+        <!-- Use a conditional to set userId only if user exists -->
+        <input type="hidden" name="userId" th:value="${session.user != null ? session.user.id : ''}"/>
+        <button type="submit" class="checkout-btn">Betal nu</button>
+    </form>
 </div>
 
-
-<script src="/js/basket.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', loadBasket);
+    if (window.location.search.includes("error=insufficient_balance")) {
+        alert("saldo for lav");
+    }
 </script>
-
 
 </body>
 </html>

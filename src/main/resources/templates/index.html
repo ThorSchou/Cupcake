@@ -23,8 +23,7 @@
     <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
     <a href="/login" th:if="${session.user == null}">Log in</a>
     <span th:if="${session.user != null}"
-          th:text="${session.user.email + ' - Balance: ' + session.user.balance}">Email og balance</span>
-    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
+          th:text="${session.user.email + ' - Balance: ' + session.user.balance + ' DKK'}">Email og Saldo</span>    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
     <a href="/checkout">
         <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
     </a>
@@ -39,7 +38,7 @@
         <h2>Velkommen ombord</h2>
         <p>Øens bedste cupcakes. Vælg og bestil her:</p>
         <div class="selection">
-            <select name="bottom-selection" id="bottom-selection">
+            <select name="bottom-selection" id="bottom-selection" required>
                 <option value="" disabled selected>Vælg bund</option>
                 <option th:each="b : ${bottoms}"
                         th:value="${b.id}"
@@ -47,7 +46,7 @@
                 </option>
             </select>
 
-            <select name="topping-selection" id="topping-selection">
+            <select name="topping-selection" id="topping-selection" required>
                 <option value="" disabled selected>Vælg top</option>
                 <option th:each="t : ${toppings}"
                         th:value="${t.id}"
@@ -56,7 +55,7 @@
                 </option>
             </select>
 
-            <input type="number" name="amount" placeholder="Vælg antal" min="1">
+            <input type="number" name="amount" placeholder="Vælg antal" min="1" required>
         </div>
         <button class="button">Læg i kurv</button>
     </div>

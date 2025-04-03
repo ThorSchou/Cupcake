@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Kunder</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/customersStyles.css">
 </head>
 <body>
 <header>
@@ -20,15 +21,15 @@
     <a href="/customers" th:if="${session.user != null and session.user.isAdmin}">Kunder</a>
     <a href="/login" th:if="${session.user == null}">Log in</a>
     <span th:if="${session.user != null}"
-          th:text="${session.user.email + ' - Balance: ' + session.user.balance}">Email og balance</span>
-    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
+          th:text="${session.user.email + ' - Balance: ' + session.user.balance + ' DKK'}">Email og Saldo</span>    <a href="/logout" th:if="${session.user != null}" class="logout-button">Log out</a>
     <a href="/checkout">
         <img src="/images/shoppingcart.png" alt="Basket" class="basket" style="width: 50px; height: 50px;">
     </a>
 </nav>
+<div class="customer-container">
+    <h2>Registrerede kunder</h2>
 
-<div class="customer-table">
-    <table>
+    <table class="customer-table">
         <thead>
         <tr>
             <th scope="col">E-mail</th>
